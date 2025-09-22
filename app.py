@@ -21,22 +21,37 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
+# Custom CSS adapted to Streamlit theme variables for good contrast
 st.markdown("""
 <style>
+    :root {
+        /* Fallbacks if theme variables are missing */
+        --primary-color: var(--primary-color, #1f77b4);
+        --text-color: var(--text-color, #262730);
+        --bg-color: var(--background-color, #ffffff);
+        --secondary-bg: var(--secondary-background-color, #f6f6f6);
+    }
+
+    /* Ensure base text uses theme text color for readability */
+    html, body, [class^="css"], .stMarkdown p, .stMarkdown li, .stTextInput label,
+    .stSelectbox label, .stSlider label, .stMetric, .stRadio label, .stButton button {
+        color: var(--text-color) !important;
+    }
+
     .main-header {
         font-size: 2.5rem;
         font-weight: bold;
-        color: #1f77b4;
+        color: var(--text-color) !important;
         text-align: center;
         margin-bottom: 2rem;
     }
     .book-card {
-        background-color: #f8f9fa;
+        background-color: var(--secondary-bg);
+        color: var(--text-color);
         padding: 1rem;
         border-radius: 10px;
         margin-bottom: 1rem;
-        border-left: 5px solid #1f77b4;
+        border-left: 5px solid var(--primary-color);
     }
     .rating-stars {
         color: #ffd700;
@@ -45,8 +60,37 @@ st.markdown("""
     .sidebar-header {
         font-size: 1.5rem;
         font-weight: bold;
-        color: #1f77b4;
+        color: var(--text-color) !important;
         margin-bottom: 1rem;
+    }
+
+    /* Tabs and nav accents */
+    .stTabs [data-baseweb="tab-list"] button {
+        color: var(--text-color) !important;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        color: var(--primary-color) !important;
+    }
+
+    /* Info/success messages better contrast */
+    .stAlert > div {
+        color: var(--text-color) !important;
+    }
+
+    /* Improve readability under dark mode */
+    @media (prefers-color-scheme: dark) {
+        html, body, [class^="css"], .stMarkdown p, .stMarkdown li, .stTextInput label,
+        .stSelectbox label, .stSlider label, .stMetric, .stRadio label, .stButton button,
+        h1, h2, h3, h4, h5, h6, label, p, span, div, li, a, strong, em {
+            color: #f5f5f5 !important;
+        }
+
+        .main-header { color: #f5f5f5 !important; }
+        .book-card { background-color: #1f2937; color: #f5f5f5; border-left-color: #60a5fa; }
+        .sidebar-header { color: #f5f5f5 !important; }
+        .stTabs [data-baseweb="tab-list"] button { color: #e5e7eb !important; }
+        .stTabs [data-baseweb="tab"]:hover { color: #93c5fd !important; }
+        .stAlert > div { color: #f5f5f5 !important; }
     }
 </style>
 """, unsafe_allow_html=True)
